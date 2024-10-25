@@ -8,19 +8,22 @@ public class Door : MonoBehaviour
 
     [SerializeField] private string _name = "Null";
 
-    private void Start() { Instance = this; }
+    private void Start()
+    {
+        Instance = this;
+    }
 
     public string DoorName() { return _name; }
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.CompareTag("Player"))
+        if (collider.CompareTag("Player"))
             GameUI.Instance.ButtonActive(true, "Door");
     }
     
     private void OnTriggerExit2D(Collider2D collider)
     {
-        if (collider.gameObject.CompareTag("Player"))
+        if (collider.CompareTag("Player"))
             GameUI.Instance.ButtonActive(false, "Use");
     }
 }

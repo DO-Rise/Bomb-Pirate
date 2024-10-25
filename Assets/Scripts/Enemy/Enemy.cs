@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public static Enemy Instance;
 
     [Header("Name")]
     [SerializeField] private string _enemyName;
@@ -23,8 +22,10 @@ public class Enemy : MonoBehaviour
     private SpriteRenderer _sprite;
     private AudioSource _audioSource;
 
+    private PlayerController _playerController;
+
     private Transform _player;
-    private List<Transform> _bombs = new List<Transform>();
+    private List<Transform> _listsBombs = new List<Transform>();
     private Transform _target;
 
     private float _speed = 5f;
@@ -44,12 +45,12 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        Instance = this;
-
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
         _sprite = GetComponent<SpriteRenderer>();
         _audioSource = GetComponent<AudioSource>();
+
+        _playerController = FindObjectOfType<PlayerController>();
 
         _player = GameObject.FindGameObjectWithTag("Player").transform;
     }
@@ -92,7 +93,7 @@ public class Enemy : MonoBehaviour
                 if (IsAnimationFinished("PlayerAttack"))
                 {
                     if (IsTargetValid(_player, 2f))
-                        PlayerController.Instance.Damage(_vectorAttack, _enemyName);
+                        _playerController.Damage(_vectorAttack, _enemyName);
 
                     _anim.Play("Idle");
                     Invoke("AttackDeactive", 1f);
@@ -134,7 +135,7 @@ public class Enemy : MonoBehaviour
 
     private void UpdateBombsList()
     {
-        _bombs.Clear();
+        _listsBombs.Clear();
         GameObject[] bombObjects = GameObject.FindGameObjectsWithTag("Bomb");
 
         foreach (GameObject bomb in bombObjects)
@@ -146,7 +147,7 @@ public class Enemy : MonoBehaviour
                 AnimatorStateInfo currentState = bombAnimation.GetCurrentAnimatorStateInfo(0);
 
                 if (!currentState.IsName("Off") && IsTargetValid(bomb.transform, _detectionRangeX))
-                    _bombs.Add(bomb.transform);
+                    _listsBombs.Add(bomb.transform);
             }
         }
     }
@@ -156,7 +157,7 @@ public class Enemy : MonoBehaviour
         Transform nearestBomb = null;
         float minDistance = Mathf.Infinity;
 
-        foreach (Transform bomb in _bombs)
+        foreach (Transform bomb in _listsBombs)
         {
             float distance = Mathf.Abs(transform.position.x - bomb.position.x);
 

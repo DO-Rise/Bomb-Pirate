@@ -10,7 +10,6 @@ public class Plot : MonoBehaviour
     private void Start()
     {
         _anim = GetComponent<Animator>();
-
         _anim.Play("StartPlot");
     }
 

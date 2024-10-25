@@ -6,18 +6,16 @@ using TMPro;
 
 public class LevelGenerator : MonoBehaviour
 {
-    public static LevelGenerator Instance;
-
     [Header("Start")]
-    [SerializeField] private GameObject startDoor;
+    [SerializeField] private GameObject _startDoor;
     [Space(15)]
 
     [Header("Levels")]
-    [SerializeField] private GameObject[] startLevel;
-    [SerializeField] private GameObject[] centerLevel;
-    [SerializeField] private GameObject[] endLevel;
+    [SerializeField] private GameObject[] _startLevel;
+    [SerializeField] private GameObject[] _centerLevel;
+    [SerializeField] private GameObject[] _endLevel;
     [SerializeField] private GameObject[] _bossLevel;
-    [SerializeField] private Transform startPoint;
+    [SerializeField] private Transform _startPoint;
     [SerializeField] private TextMeshPro _currentNumberLevelText;
 
     [Header("Enemys")]
@@ -29,7 +27,7 @@ public class LevelGenerator : MonoBehaviour
 
     private GameObject _currentObjectPosition;
 
-    private int _currentNumberLevel = 5;
+    private int _currentNumberLevel = 0;
     private int _createNumber = 0;
     private int _createLevel = 0;
     private int _minCreateLevel = 0;
@@ -41,12 +39,10 @@ public class LevelGenerator : MonoBehaviour
 
     private void Start()
     {
-        Instance = this;
-
-        startDoor.SetActive(true);
+        _startDoor.SetActive(true);
         _buildLevel = false;
 
-        _player.transform.position = startPoint.position;
+        _player.transform.position = _startPoint.position;
 
         //PlayerPrefs.DeleteKey("SavedNumberLevel");
         //_currentNumberLevel = PlayerPrefs.GetInt("SavedNumberLevel", 0);
@@ -63,7 +59,7 @@ public class LevelGenerator : MonoBehaviour
             if (_createNumber == 0)
             {
                 CreateFirstLevel();
-                _player.transform.position = startPoint.position;
+                _player.transform.position = _startPoint.position;
 
                 _createNumber++;
             }
@@ -139,18 +135,18 @@ public class LevelGenerator : MonoBehaviour
         if (_currentNumberLevel > 2)
             _createLevel = Random.Range(_minCreateLevel, _maxCreateLevel);
 
-        startDoor.SetActive(false);
+        _startDoor.SetActive(false);
         _buildLevel = true;
     }
 
     private void CreateFirstLevel()
     {
-        int randomNumber = Random.Range(0, startLevel.Length);
-        for (int i = 0; i < startLevel.Length; i++)
+        int randomNumber = Random.Range(0, _startLevel.Length);
+        for (int i = 0; i < _startLevel.Length; i++)
         {
             if (i == randomNumber)
             {
-                GameObject first = Instantiate(startLevel[i], startPoint.position, Quaternion.identity, this.transform);
+                GameObject first = Instantiate(_startLevel[i], _startPoint.position, Quaternion.identity, this.transform);
                 _currentObjectPosition = first;
             }
         }
@@ -158,12 +154,12 @@ public class LevelGenerator : MonoBehaviour
 
     private void CreateCenterLevel(Transform point)
     {
-        int randomNumber = Random.Range(0, centerLevel.Length);
-        for (int i = 0; i < centerLevel.Length; i++)
+        int randomNumber = Random.Range(0, _centerLevel.Length);
+        for (int i = 0; i < _centerLevel.Length; i++)
         {
             if (i == randomNumber)
             {
-                GameObject center = Instantiate(centerLevel[i], point.position, Quaternion.identity, this.transform);
+                GameObject center = Instantiate(_centerLevel[i], point.position, Quaternion.identity, this.transform);
                 _currentObjectPosition = center;
             }
         }
@@ -171,11 +167,11 @@ public class LevelGenerator : MonoBehaviour
 
     private void CreateLastLevel(Transform point)
     {
-        int randomNumber = Random.Range(0, endLevel.Length);
-        for (int i = 0; i < endLevel.Length; i++)
+        int randomNumber = Random.Range(0, _endLevel.Length);
+        for (int i = 0; i < _endLevel.Length; i++)
         {
             if (i == randomNumber)
-                Instantiate(endLevel[i], point.position, Quaternion.identity, this.transform);
+                Instantiate(_endLevel[i], point.position, Quaternion.identity, this.transform);
         }
     }
 
@@ -194,7 +190,7 @@ public class LevelGenerator : MonoBehaviour
         else if (_currentNumberLevel == 70)
             number = 4;
 
-        for (int i = 0; i < endLevel.Length; i++)
+        for (int i = 0; i < _endLevel.Length; i++)
         {
             if (i == number)
             {

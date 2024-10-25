@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    public static Health Instance;
-
     [SerializeField] private GameObject[] _hearts;
+
+    private PlayerController _playerController;
 
     private int _currentHearts = 3;
     private bool _deactive = true;
 
     private void Start()
     {
-        Instance = this;
+        _playerController = GetComponent<PlayerController>();
     }
 
     public void DeactiveHeart()
     {
         if (_currentHearts <= 1)
-            PlayerController.Instance.Death();
+            _playerController.Death();
 
         if (_currentHearts > 0 && _deactive)
         {

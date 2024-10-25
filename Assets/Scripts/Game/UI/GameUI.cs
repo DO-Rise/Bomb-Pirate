@@ -10,9 +10,9 @@ public class GameUI : MonoBehaviour
     public static GameUI Instance;
 
     [Header("Screen")]
-    [SerializeField] private GameObject loadScreen;
-    [SerializeField] private GameObject controlDisplay;
-    [SerializeField] private GameObject LoseScreen;
+    [SerializeField] private GameObject _loadScreen;
+    [SerializeField] private GameObject _controlDisplay;
+    [SerializeField] private GameObject _loseScreen;
     [SerializeField] private GameObject _settingsScreen;
     [SerializeField] private GameObject _tutorialScreen;
     [SerializeField] private GameObject _bossImageScreen;
@@ -35,12 +35,16 @@ public class GameUI : MonoBehaviour
     [SerializeField] private TMP_Text _bombCurentNumberText;
     [Space(15)]
 
-    [Header("Animator")]
+    [Header("Other")]
     [SerializeField] private Animator _animBossImage;
+    [SerializeField] private LevelGenerator _levelGenerator;
+    [SerializeField] private BombManager _bombManager;
 
+    private Timer _timer;
     private AudioSource _audioSource;
 
     private GameObject _bombSelection;
+    private bool _takeBomb = false;
     private bool _useDoor = false;
 
     private bool _sound = true;
@@ -49,6 +53,7 @@ public class GameUI : MonoBehaviour
     {
         Instance = this;
 
+        _timer = GetComponentInChildren<Timer>();
         _audioSource = GetComponent<AudioSource>();
 
         _audioSource.clip = _menuSound;
@@ -59,26 +64,23 @@ public class GameUI : MonoBehaviour
     private void Update()
     {
         if (IsAnimationFinished("End"))
-        {
             _bossImageScreen.SetActive(false);
-
-        }
     }
 
     public void StartGame()
     {
-        loadScreen.SetActive(true);
-        controlDisplay.SetActive(false);
+        _loadScreen.SetActive(true);
+        _controlDisplay.SetActive(false);
 
-        LevelGenerator.Instance.BuildLevel();
+        _levelGenerator.BuildLevel();
     }
 
     public void CreateLevelFinish()
     {
-        loadScreen.SetActive(false);
-        controlDisplay.SetActive(true);
+        _loadScreen.SetActive(false);
+        _controlDisplay.SetActive(true);
 
-        Timer.Instance.StartTime();
+        _timer.StartTime();
 
         _audioSource.clip = _gameSound;
         if (SoundCheck())
@@ -96,7 +98,10 @@ public class GameUI : MonoBehaviour
             }
 
             if (nameButton == "TakeBomb")
+            {
                 _useButton.interactable = true;
+                _takeBomb = true;
+            }
 
             if (nameButton == "Bomb")
                 _bombButton.interactable = true;
@@ -107,6 +112,7 @@ public class GameUI : MonoBehaviour
             {
                 _useButton.interactable = false;
                 _useDoor = false;
+                _takeBomb = false;
             }
 
             if (nameButton == "Bomb")
@@ -119,26 +125,22 @@ public class GameUI : MonoBehaviour
         _bombSelection = bomb;
     }
 
-    public void TakeBombButton()
-    {
-        if (BombManager.Instance.TakeBomb())
-            Bomb.Instance.ActiveBomb(_bombSelection);
-    }
-
     public void BombNumberUI(int number)
     {
         _bombCurentNumberText.text = number.ToString();
     }
 
-    public void UseDoorButton()
+    public void UseButton()
     {
         if (_useDoor)
         {
             if (Door.Instance.DoorName() == "Start")
                 StartGame();
             else if (Door.Instance.DoorName() == "Finish")
-                LevelGenerator.Instance.ResetLevel();
+                _levelGenerator.ResetLevel();
         }
+        else if (_takeBomb && _bombManager.TakeBomb())
+            Bomb.Instance.ActiveBomb(_bombSelection);
     }
 
     public void SettingsButton(bool active)
@@ -207,8 +209,8 @@ public class GameUI : MonoBehaviour
 
     public void Lose()
     {
-        LoseScreen.SetActive(true);
-        controlDisplay.SetActive(false);
+        _loseScreen.SetActive(true);
+        _controlDisplay.SetActive(false);
 
         _audioSource.clip = _deathSound;
         if (SoundCheck())

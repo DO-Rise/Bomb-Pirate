@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public static PlayerController Instance;
-
     [SerializeField] private string _controller = "PC";
 
     private Rigidbody2D _rb;
@@ -23,11 +21,8 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        Instance = this;
-
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
-
         _health = GetComponent<Health>();
 
         _anim.Play("Idle");
@@ -185,7 +180,6 @@ public class PlayerController : MonoBehaviour
         {
             _movement = false;
 
-            Boss.Instance.ActiveBoss(true);
             GameUI.Instance.AnimationBossImage("Start");
         }
     }

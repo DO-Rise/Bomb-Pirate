@@ -5,12 +5,11 @@ using TMPro;
 
 public class Timer : MonoBehaviour
 {
-    public static Timer Instance;
-
-    [SerializeField] private TMP_Text timerText;
+    [SerializeField] private UICucumber _uICucumber;
+    [SerializeField] private TMP_Text _timerText;
 
     private bool _time = false;
-    private bool _uiCucumber = true;
+    private bool _uiCucumberActive = true;
 
     private int _min = 0;
     private float _sec = 0f;
@@ -20,7 +19,6 @@ public class Timer : MonoBehaviour
 
     private void Start()
     {
-        Instance = this;
         _time = false;
     }
 
@@ -38,7 +36,7 @@ public class Timer : MonoBehaviour
             else
                 _forSec = "";
 
-            timerText.text = _forMin + _min.ToString() + ":" + _forSec + Mathf.FloorToInt(_sec).ToString();
+            _timerText.text = _forMin + _min.ToString() + ":" + _forSec + Mathf.FloorToInt(_sec).ToString();
 
             _sec += Time.deltaTime;
 
@@ -50,15 +48,15 @@ public class Timer : MonoBehaviour
 
             if (_min % 2 == 0 && _sec < 17f)
             {
-                if (_sec == 0 && _uiCucumber)
+                if (_sec == 0 && _uiCucumberActive)
                 {
-                    UICucumber.Instance.ActiveCucumber();
-                    _uiCucumber = false;
+                    _uICucumber.ActiveCucumber();
+                    _uiCucumberActive = false;
                 }
                 if (_sec > 15 && _sec < 17)
                 {
-                    UICucumber.Instance.DeactiveCucumber();
-                    _uiCucumber = true;
+                    _uICucumber.DeactiveCucumber();
+                    _uiCucumberActive = true;
                 }
             }
         }

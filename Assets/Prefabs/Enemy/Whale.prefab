@@ -131,7 +131,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4288033869640671706}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -219,6 +219,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 694cc549bc1b37e4eac12891d8d9048c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerController: {fileID: 6369047381767828481, guid: 7ce45f56d417fb345acd923134a4f261, type: 3}
+  _bomb: {fileID: 1914739351828126819, guid: b4ad2cb949dcceb4eaeace75b531b17d, type: 3}
   _enemyName: Whale
   _basicCollider: {fileID: 4820561079690290514}
   _deadCollider: {fileID: 2261317970623840730}
+  _attackSound: {fileID: 0}

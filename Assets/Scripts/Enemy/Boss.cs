@@ -4,16 +4,9 @@ using UnityEngine;
 
 public class Boss : MonoBehaviour
 {
-    public static Boss Instance;
-
     [SerializeField] private GameObject _bossStartTrigger;
 
     private bool active = false;
-
-    private void Start()
-    {
-        Instance = this;
-    }
 
     private void Update()
     {

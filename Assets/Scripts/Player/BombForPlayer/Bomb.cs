@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bomb : MonoBehaviour
 {
     public static Bomb Instance;
-    public static bool activeBombAnim = false;
+    public static bool ActiveBombAnim = false;
 
     [SerializeField] private Collider2D _basicCollider;
     [SerializeField] private Collider2D _useCollider;
@@ -15,6 +15,7 @@ public class Bomb : MonoBehaviour
 
     private Animator _anim;
     private Rigidbody2D _rb;
+
 
     private float _sec;
     private float _secMaxValue = 3f;
@@ -30,6 +31,7 @@ public class Bomb : MonoBehaviour
     private void Start()
     {
         Instance = this;
+
         _anim = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
 
@@ -47,15 +49,9 @@ public class Bomb : MonoBehaviour
         {
             _time = true;
             Physics2D.IgnoreLayerCollision(_indexLayerBomb, _indexLayerEnemy, false);
-
-            //_rb.gravityScale = 2.2f;
-            //_basicCollider.enabled = true;
         }
         if (IsAnimationPlaying("Off"))
-        {
             _time = false;
-            //Invoke("BombDeactive", 1f);
-        }
 
         if (_time)
         {
@@ -173,10 +169,10 @@ public class Bomb : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && activeBombAnim)
+        if (collision.gameObject.CompareTag("Player") && ActiveBombAnim)
         {
             _anim.Play("Onn");
-            activeBombAnim = false;
+            ActiveBombAnim = false;
         }
     }
 

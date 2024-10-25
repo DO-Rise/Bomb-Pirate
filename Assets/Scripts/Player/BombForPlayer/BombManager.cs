@@ -4,20 +4,17 @@ using UnityEngine;
 
 public class BombManager : MonoBehaviour
 {
-    public static BombManager Instance;
-
-    [SerializeField] private List<GameObject> bombs;
-    [SerializeField] private Transform spawnPosition;
-    [SerializeField] private Animator reloadAnim;
+    [SerializeField] private List<GameObject> _listBombs;
+    [SerializeField] private Transform _spawnPosition;
+    [SerializeField] private Animator _reloadAnim;
 
     private int _currentNumberBomb;
 
     private void Start()
     {
-        Instance = this;
-        _currentNumberBomb = bombs.Count;
+        _currentNumberBomb = _listBombs.Count;
 
-        reloadAnim.Play("Wait");
+        _reloadAnim.Play("Wait");
     }
 
     private void Update()
@@ -29,7 +26,7 @@ public class BombManager : MonoBehaviour
         else
             GameUI.Instance.ButtonActive(true, "Bomb");
 
-        AnimatorStateInfo stateInfo = reloadAnim.GetCurrentAnimatorStateInfo(0);
+        AnimatorStateInfo stateInfo = _reloadAnim.GetCurrentAnimatorStateInfo(0);
 
         if (stateInfo.IsName("Reload"))
         {
@@ -38,7 +35,7 @@ public class BombManager : MonoBehaviour
             if (stateInfo.normalizedTime >= 1f)
             {
                 GameUI.Instance.ButtonActive(true, "Bomb");
-                reloadAnim.Play("Wait");
+                _reloadAnim.Play("Wait");
             }
         }
     }
@@ -47,20 +44,20 @@ public class BombManager : MonoBehaviour
     {
         if (_currentNumberBomb > 0)
         {
-            bombs[_currentNumberBomb - 1].transform.position = spawnPosition.position;
-            bombs[_currentNumberBomb - 1].SetActive(true);
+            _listBombs[_currentNumberBomb - 1].transform.position = _spawnPosition.position;
+            _listBombs[_currentNumberBomb - 1].SetActive(true);
 
-            Bomb.activeBombAnim = true;
+            Bomb.ActiveBombAnim = true;
 
             _currentNumberBomb--;
 
-            reloadAnim.Play("Reload");
+            _reloadAnim.Play("Reload");
         }
     }
 
     public bool TakeBomb()
     {
-        if (_currentNumberBomb < bombs.Count)
+        if (_currentNumberBomb < _listBombs.Count)
         {
             _currentNumberBomb++;
             return true;

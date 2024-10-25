@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1122379433831574441}
   - component: {fileID: 4534435167580016901}
+  - component: {fileID: 1914739351828126819}
   - component: {fileID: -1727024185722953293}
   - component: {fileID: 8035591123685012218}
   - component: {fileID: 4305347386591955331}
   - component: {fileID: 2325447571801227767}
-  - component: {fileID: 1914739351828126819}
   m_Layer: 6
   m_Name: Bomb
   m_TagString: Bomb
@@ -89,6 +89,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1914739351828126819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5309436324583751818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c51adbf6a35f2b4bafcd5aa629b6df3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _basicCollider: {fileID: 4305347386591955331}
+  _useCollider: {fileID: 2325447571801227767}
+  _startAnimation: Off
+  _enemyLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  _playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!95 &-1727024185722953293
 Animator:
   serializedVersion: 5
@@ -207,24 +228,3 @@ CircleCollider2D:
   m_Offset: {x: 0.01, y: -0.2}
   serializedVersion: 2
   m_Radius: 0.4
---- !u!114 &1914739351828126819
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5309436324583751818}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c51adbf6a35f2b4bafcd5aa629b6df3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _basicCollider: {fileID: 4305347386591955331}
-  _useCollider: {fileID: 2325447571801227767}
-  _startAnimation: Off
-  _enemyLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  _playerLayer:
-    serializedVersion: 2
-    m_Bits: 128

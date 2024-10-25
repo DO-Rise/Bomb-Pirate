@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class UICucumber : MonoBehaviour
 {
-    public static UICucumber Instance;
-
     [Header("Left Cucumber")]
     [SerializeField] private RectTransform _leftCucumber;
     [SerializeField] private RectTransform _startPointL;
@@ -18,15 +16,11 @@ public class UICucumber : MonoBehaviour
 
     private float _speed = 1500f;
 
-    private Vector3 pos;
-
     private bool _activeL = false;
     private bool _activeR = false;
 
     private void Start()
     {
-        Instance = this;
-
         _leftCucumber.position = _startPointL.position;
         _rightCucumber.position = _startPointR.position;
     }
