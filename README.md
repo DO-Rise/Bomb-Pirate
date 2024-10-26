@@ -1,3 +1,1 @@
-<center>
- # Bomb Pirate
-</center> 
+# Bomb Pirate
