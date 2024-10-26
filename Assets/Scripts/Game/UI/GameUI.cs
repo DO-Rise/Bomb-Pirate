@@ -12,6 +12,7 @@ public class GameUI : MonoBehaviour
     [Header("Screen")]
     [SerializeField] private GameObject _loadScreen;
     [SerializeField] private GameObject _controlDisplay;
+    [SerializeField] private GameObject _controlDisplayButton;
     [SerializeField] private GameObject _loseScreen;
     [SerializeField] private GameObject _settingsScreen;
     [SerializeField] private GameObject _tutorialScreen;
@@ -45,9 +46,12 @@ public class GameUI : MonoBehaviour
 
     private GameObject _bombSelection;
     private bool _takeBomb = false;
+    private bool _useBomb = true;
     private bool _useDoor = false;
 
     private bool _sound = true;
+
+    private string _device;
 
     private void Start()
     {
@@ -56,6 +60,8 @@ public class GameUI : MonoBehaviour
         _timer = GetComponentInChildren<Timer>();
         _audioSource = GetComponent<AudioSource>();
 
+        _device = DeviceControl.Instance.CurrentDevice();
+
         _audioSource.clip = _menuSound;
         if (SoundCheck())
             _audioSource.Play();
@@ -63,6 +69,22 @@ public class GameUI : MonoBehaviour
 
     private void Update()
     {
+        if (_device == "PC")
+        {
+            _controlDisplayButton.SetActive(false);
+
+            if (Input.GetKey(KeyCode.Escape))
+                _settingsScreen.SetActive(true);
+
+            if (Input.GetKey(KeyCode.E))
+                UseButton();
+
+            if (Input.GetKeyDown(KeyCode.O) && _useBomb)
+                _bombManager.ActiveBomb();
+        }
+        else
+            _controlDisplayButton.SetActive(true);
+
         if (IsAnimationFinished("End"))
             _bossImageScreen.SetActive(false);
     }
@@ -104,7 +126,10 @@ public class GameUI : MonoBehaviour
             }
 
             if (nameButton == "Bomb")
+            {
                 _bombButton.interactable = true;
+                _useBomb = true;
+            }
         }
         else
         {
@@ -116,7 +141,10 @@ public class GameUI : MonoBehaviour
             }
 
             if (nameButton == "Bomb")
+            {
                 _bombButton.interactable = false;
+                _useBomb = false;
+            }
         }
     }
     

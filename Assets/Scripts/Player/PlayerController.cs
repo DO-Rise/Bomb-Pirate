@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private string _controller = "PC";
-
     private Rigidbody2D _rb;
     private Animator _anim;
+    private SpriteRenderer _spriteRenderer;
     private Health _health;
+
+    private string _device;
 
     private bool _movement = true;
     private char _isMove = 'N';
@@ -23,7 +24,10 @@ public class PlayerController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         _health = GetComponent<Health>();
+
+        _device = DeviceControl.Instance.CurrentDevice();
 
         _anim.Play("Idle");
     }
@@ -32,7 +36,7 @@ public class PlayerController : MonoBehaviour
     {
         if (_movement)
         {
-            if (_controller == "Mobile")
+            if (_device == "Mobile")
             {
                 if (_isMove == 'N')
                 {
@@ -48,22 +52,33 @@ public class PlayerController : MonoBehaviour
 
                     if (_isMove == 'L')
                     {
-                        gameObject.transform.localScale = new Vector3(-3f, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+                        _spriteRenderer.flipX = false;
                         _rb.velocity = new Vector2(-_moveSpeed, _rb.velocity.y);
                     }
                     else if (_isMove == 'R')
                     {
-                        gameObject.transform.localScale = new Vector3(3f, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+                        _spriteRenderer.flipX = true;
                         _rb.velocity = new Vector2(_moveSpeed, _rb.velocity.y);
                     }
                 }
             }
-            else if (_controller == "PC")
+            else if (_device == "PC")
             {
                 float horizontal = Input.GetAxis("Horizontal");
                 float vertical = Input.GetAxis("Vertical");
 
                 _rb.velocity = new Vector2(horizontal * _moveSpeed, _rb.velocity.y);
+
+                if (horizontal != 0f && _isJumping)
+                    _anim.Play("Run");
+
+                if (horizontal == 0f && _isJumping)
+                    _anim.Play("Idle");
+
+                if (horizontal > 0f)
+                    _spriteRenderer.flipX = true;
+                else if (horizontal < 0f)
+                    _spriteRenderer.flipX = false;
 
                 if (Input.GetKey(KeyCode.Space))
                     Jump();
@@ -78,6 +93,11 @@ public class PlayerController : MonoBehaviour
 
         if (GameUI.Instance.IsAnimationFinished("End"))
             _movement = true;
+    }
+
+    public bool SpriteFlip()
+    {
+        return _spriteRenderer.flipX;
     }
 
     // Movement
@@ -170,13 +190,13 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.CompareTag("Bomb"))
+        if (collider.CompareTag("Bomb"))
         {
             GameUI.Instance.BombSelection(collider.gameObject);
             GameUI.Instance.ButtonActive(true, "TakeBomb");
         }
 
-        if (collider.gameObject.CompareTag("TriggerBoss"))
+        if (collider.CompareTag("TriggerBoss"))
         {
             _movement = false;
 
@@ -186,7 +206,7 @@ public class PlayerController : MonoBehaviour
     
     private void OnTriggerExit2D(Collider2D collider)
     {
-        if (collider.gameObject.CompareTag("Bomb"))
+        if (collider.CompareTag("Bomb"))
             GameUI.Instance.ButtonActive(false, "Use");
     }
 }

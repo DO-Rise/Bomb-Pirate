@@ -7,6 +7,7 @@ public class Bomb : MonoBehaviour
     public static Bomb Instance;
     public static bool ActiveBombAnim = false;
 
+    [SerializeField] private GameObject _takeUI;
     [SerializeField] private Collider2D _basicCollider;
     [SerializeField] private Collider2D _useCollider;
     [SerializeField] private string _startAnimation = "Off";
@@ -15,7 +16,6 @@ public class Bomb : MonoBehaviour
 
     private Animator _anim;
     private Rigidbody2D _rb;
-
 
     private float _sec;
     private float _secMaxValue = 3f;
@@ -28,12 +28,16 @@ public class Bomb : MonoBehaviour
     private int _indexLayerEnemy;
     private int _indexLayerPlayer;
 
+    private string _device;
+
     private void Start()
     {
         Instance = this;
 
         _anim = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
+
+        _device = DeviceControl.Instance.CurrentDevice();
 
         _indexLayerBomb = LayerMask.NameToLayer("Bomb");
         _indexLayerEnemy = LayerMask.NameToLayer("Enemy");
@@ -165,6 +169,18 @@ public class Bomb : MonoBehaviour
                 return true;
         }
         return false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (_device == "PC" && collider.CompareTag("Player"))
+            _takeUI.SetActive(true);
+    }
+
+    private void OnTriggerExit2D(Collider2D collider)
+    {
+        if (_device == "PC" && collider.CompareTag("Player"))
+            _takeUI.SetActive(false);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

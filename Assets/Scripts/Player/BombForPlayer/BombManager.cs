@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class BombManager : MonoBehaviour
 {
+    [SerializeField] private PlayerController _playerController;
     [SerializeField] private List<GameObject> _listBombs;
-    [SerializeField] private Transform _spawnPosition;
+    [SerializeField] private Transform _spawnPositionL;
+    [SerializeField] private Transform _spawnPositionR;
     [SerializeField] private Animator _reloadAnim;
 
     private int _currentNumberBomb;
 
     private void Start()
     {
+        _playerController = GetComponent<PlayerController>();
+
         _currentNumberBomb = _listBombs.Count;
 
         _reloadAnim.Play("Wait");
@@ -44,7 +48,11 @@ public class BombManager : MonoBehaviour
     {
         if (_currentNumberBomb > 0)
         {
-            _listBombs[_currentNumberBomb - 1].transform.position = _spawnPosition.position;
+            if (_playerController.SpriteFlip())
+                _listBombs[_currentNumberBomb - 1].transform.position = _spawnPositionL.position;
+            else
+                _listBombs[_currentNumberBomb - 1].transform.position = _spawnPositionR.position;
+
             _listBombs[_currentNumberBomb - 1].SetActive(true);
 
             Bomb.ActiveBombAnim = true;
