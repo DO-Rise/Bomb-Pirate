@@ -1,2 +1,3 @@
-<h1 align="center>Bomb Pirate</h1>
- 
+<center>
+ # Bomb Pirate
+</center> 
