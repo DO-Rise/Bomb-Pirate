@@ -38,8 +38,13 @@ public class GameUI : MonoBehaviour
 
     [Header("Other")]
     [SerializeField] private Animator _animBossImage;
+    [SerializeField] private GameObject _bossHealthObject;
+    [SerializeField] private Slider _bossHealthSlider;
     [SerializeField] private LevelGenerator _levelGenerator;
     [SerializeField] private BombManager _bombManager;
+
+    private Boss _boss;
+    private BossHealth _bossHealth;
 
     private Timer _timer;
     private AudioSource _audioSource;
@@ -85,8 +90,19 @@ public class GameUI : MonoBehaviour
         else
             _controlDisplayButton.SetActive(true);
 
+        // Boss
         if (IsAnimationFinished("End"))
+        {
+            _boss.ActiveBoss();
+
             _bossImageScreen.SetActive(false);
+            _bossHealthObject.SetActive(true);
+
+            _bossHealthSlider.maxValue = _bossHealth.SliderHealthBoss();
+        }
+
+        if (_bossHealthObject.activeSelf)
+            _bossHealthSlider.value = _bossHealth.SliderHealthBoss();
     }
 
     public void StartGame()
@@ -107,6 +123,9 @@ public class GameUI : MonoBehaviour
         _audioSource.clip = _gameSound;
         if (SoundCheck())
             _audioSource.Play();
+
+        _boss = FindObjectOfType<Boss>();
+        _bossHealth = FindObjectOfType<BossHealth>();
     }
 
     public void ButtonActive(bool active, string nameButton)
@@ -233,7 +252,6 @@ public class GameUI : MonoBehaviour
         }
         return false;
     }
-
 
     public void Lose()
     {

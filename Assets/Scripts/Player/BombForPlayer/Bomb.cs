@@ -13,6 +13,7 @@ public class Bomb : MonoBehaviour
     [SerializeField] private string _startAnimation = "Off";
     [SerializeField] private LayerMask _enemyLayer;
     [SerializeField] private LayerMask _playerLayer;
+    [SerializeField] private LayerMask _bossLayer;
 
     private Animator _anim;
     private Rigidbody2D _rb;
@@ -93,6 +94,8 @@ public class Bomb : MonoBehaviour
         Collider2D[] enemiesInRange = Physics2D.OverlapCircleAll(transform.position, _distanceDamage, _enemyLayer);
         Collider2D[] playerInRange = Physics2D.OverlapCircleAll(transform.position, _distanceDamage, _playerLayer);
 
+        Collider2D bossInRange = Physics2D.OverlapCircle(transform.position, _distanceDamage, _bossLayer);
+
         foreach (Collider2D enemy in enemiesInRange)
         {
             if (enemy.transform.position.x < transform.position.x)
@@ -112,6 +115,9 @@ public class Bomb : MonoBehaviour
 
             player.GetComponent<PlayerController>().Damage(_vectorDamage, "Null");
         }
+
+        if (bossInRange != null)
+            bossInRange.GetComponent<BossHealth>().Damage();
     }
 
     public void BombHit(string vector, float y)// y = 20 || 0

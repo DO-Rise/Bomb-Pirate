@@ -27,7 +27,7 @@ public class LevelGenerator : MonoBehaviour
 
     private GameObject _currentObjectPosition;
 
-    private int _currentNumberLevel = 0;
+    private int _currentNumberLevel = 5;
     private int _createNumber = 0;
     private int _createLevel = 0;
     private int _minCreateLevel = 0;

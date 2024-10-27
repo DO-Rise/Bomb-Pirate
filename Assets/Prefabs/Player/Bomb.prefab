@@ -453,6 +453,9 @@ MonoBehaviour:
   _playerLayer:
     serializedVersion: 2
     m_Bits: 128
+  _bossLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!95 &-1727024185722953293
 Animator:
   serializedVersion: 5

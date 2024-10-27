@@ -7,7 +7,9 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _rb;
     private Animator _anim;
     private SpriteRenderer _spriteRenderer;
+    
     private Health _health;
+    private Boss _boss;
 
     private string _device;
 
@@ -199,7 +201,6 @@ public class PlayerController : MonoBehaviour
         if (collider.CompareTag("TriggerBoss"))
         {
             _movement = false;
-
             GameUI.Instance.AnimationBossImage("Start");
         }
     }
