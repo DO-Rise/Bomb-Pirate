@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D _rb;
     private Animator _anim;
-    private SpriteRenderer _spriteRenderer;
+    private SpriteRenderer _sprite;
     
     private Health _health;
 
@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _sprite = GetComponent<SpriteRenderer>();
         _health = GetComponent<Health>();
 
         _device = DeviceControl.Instance.CurrentDevice();
@@ -53,12 +53,12 @@ public class PlayerController : MonoBehaviour
 
                     if (_isMove == 'L')
                     {
-                        _spriteRenderer.flipX = false;
+                        _sprite.flipX = false;
                         _rb.velocity = new Vector2(-_moveSpeed, _rb.velocity.y);
                     }
                     else if (_isMove == 'R')
                     {
-                        _spriteRenderer.flipX = true;
+                        _sprite.flipX = true;
                         _rb.velocity = new Vector2(_moveSpeed, _rb.velocity.y);
                     }
                 }
@@ -77,9 +77,9 @@ public class PlayerController : MonoBehaviour
                     _anim.Play("Idle");
 
                 if (horizontal > 0f)
-                    _spriteRenderer.flipX = true;
+                    _sprite.flipX = true;
                 else if (horizontal < 0f)
-                    _spriteRenderer.flipX = false;
+                    _sprite.flipX = false;
 
                 if (Input.GetKey(KeyCode.Space))
                     Jump();
@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour
 
     public bool SpriteFlip()
     {
-        return _spriteRenderer.flipX;
+        return _sprite.flipX;
     }
 
     // Movement
@@ -125,7 +125,7 @@ public class PlayerController : MonoBehaviour
         if (vector == "Left")
         {
             _movement = false;
-            gameObject.transform.localScale = new Vector3(3f, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+            _sprite.flipX = false;
 
             _rb.velocity = Vector2.zero;
             Vector2 bounce = new Vector2(-10f, 5f);
@@ -137,7 +137,7 @@ public class PlayerController : MonoBehaviour
         else if (vector == "Right")
         {
             _movement = false;
-            gameObject.transform.localScale = new Vector3(-3f, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+            _sprite.flipX = true;
 
             _rb.velocity = Vector2.zero;
             Vector2 bounce = new Vector2(10f, 5f);

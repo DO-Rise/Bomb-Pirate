@@ -212,3 +212,5 @@ MonoBehaviour:
   _bossStartTrigger: {fileID: 0}
   _maxHealth: 30
   _maxStage: 3
+  _allPlatforms: {fileID: 0}
+  _mainCannon: {fileID: 0}
