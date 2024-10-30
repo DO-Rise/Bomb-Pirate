@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 399847732620705252}
   - component: {fileID: 2111730476143950980}
   - component: {fileID: 5152795667130614812}
-  - component: {fileID: 2882094961782145151}
   - component: {fileID: 6077492884611595698}
   - component: {fileID: 8747154081136717460}
+  - component: {fileID: 8265478718602980605}
   m_Layer: 9
   m_Name: BossBaldPirate
   m_TagString: Untagged
@@ -173,19 +173,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2882094961782145151
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8750640971809980032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 853e415756942cb44a5b7c602773016f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _bossStartTrigger: {fileID: 0}
 --- !u!114 &6077492884611595698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,7 +185,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ae840a4780ef4048953f6c3e27c61aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHP: 30
 --- !u!114 &8747154081136717460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,4 +197,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2be1eeece2db00f4b8562bbb49abb556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8265478718602980605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8750640971809980032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e30df4150750938478358eaff8c7141a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bossStartTrigger: {fileID: 0}
+  _maxHealth: 30
   _maxStage: 3

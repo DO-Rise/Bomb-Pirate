@@ -9,7 +9,6 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
     
     private Health _health;
-    private Boss _boss;
 
     private string _device;
 

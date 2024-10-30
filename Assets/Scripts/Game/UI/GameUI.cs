@@ -98,11 +98,11 @@ public class GameUI : MonoBehaviour
             _bossImageScreen.SetActive(false);
             _bossHealthObject.SetActive(true);
 
-            _bossHealthSlider.maxValue = _bossHealth.SliderHealthBoss();
+            _bossHealthSlider.maxValue = _bossHealth.CurrentHealth();
         }
 
         if (_bossHealthObject.activeSelf)
-            _bossHealthSlider.value = _bossHealth.SliderHealthBoss();
+            _bossHealthSlider.value = _bossHealth.CurrentHealth();
     }
 
     public void StartGame()

@@ -7,36 +7,32 @@ public class BossHealth : MonoBehaviour
 {
     public static bool ActiveBoss = false;
 
-    [SerializeField] private int _maxHP;
-    
     private Boss _boss;
 
+    private int _maxHP;
     private int _currentHP;
-    private float _percentageHP;
 
     private bool _dealDamage = true;
 
     private void Start()
     {
-        _boss = GetComponent<Boss>();
+        _boss = FindObjectOfType<Boss>();
+    }
 
+    public void Initialize(int _maxHealth)
+    {
+        _maxHP = _maxHealth;
         _currentHP = _maxHP;
-    }
-
-    private void Update()
-    {
-        _currentHP = Mathf.Clamp(_currentHP, 0, _maxHP);
-        _percentageHP = (_currentHP / _maxHP) * 100;
-    }
-
-    public int SliderHealthBoss()
-    {
-        return _currentHP;
     }
 
     public float CurrentHealth()
     {
-        return _percentageHP;
+        return _currentHP;
+    }
+
+    public float MaxHealth()
+    {
+        return _maxHP;
     }
 
     public void Damage()
@@ -44,15 +40,17 @@ public class BossHealth : MonoBehaviour
         if (_dealDamage)
         {
             _currentHP -= 10;
-            _boss.StartAnimation("Hit");
+            _boss.Hit();
 
             _dealDamage = false;
-            Invoke("DealDamageActive", 10f);
+            StartCoroutine(DealDamageCooldown(10f));
         }
     }
 
-    private void DealDamageActive()
+    private IEnumerator DealDamageCooldown(float delay)
     {
+        _dealDamage = false;
+        yield return new WaitForSeconds(delay);
         _dealDamage = true;
     }
 }
