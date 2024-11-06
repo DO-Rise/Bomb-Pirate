@@ -5,88 +5,82 @@ using UnityEngine;
 public class Bomb : MonoBehaviour
 {
     public static Bomb Instance;
-    public static bool ActiveBombAnim = false;
 
-    [SerializeField] private GameObject _takeUI;
-    [SerializeField] private Collider2D _basicCollider;
-    [SerializeField] private Collider2D _useCollider;
-    [SerializeField] private string _startAnimation = "Off";
+    public static GameObject BombTake;
+
+    [SerializeField] private string _startAnimation;
     [SerializeField] private LayerMask _enemyLayer;
     [SerializeField] private LayerMask _playerLayer;
     [SerializeField] private LayerMask _bossLayer;
+    [SerializeField] private GameObject _takeUI;
 
-    private Animator _anim;
+    private BombManager _bombManager;
+
     private Rigidbody2D _rb;
-
-    private float _sec;
-    private float _secMaxValue = 3f;
-    private bool _time = false;
+    private Animator _anim;
 
     private float _distanceDamage = 1.5f;
+
+    private bool _timer = false;
+    private float _secMaxValue = 3f;
+    private float _sec;
+
     private string _vectorDamage = "Null";
 
     private int _indexLayerBomb;
     private int _indexLayerEnemy;
-    private int _indexLayerPlayer;
 
-    private string _device;
+    private void Awake()
+    {
+        _anim = GetComponent<Animator>();
+    }
+
+    private void OnEnable()
+    {
+        _anim.Play(_startAnimation);
+    }
 
     private void Start()
     {
         Instance = this;
 
-        _anim = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
-
-        _device = DeviceControl.Instance.CurrentDevice();
-
-        _indexLayerBomb = LayerMask.NameToLayer("Bomb");
-        _indexLayerEnemy = LayerMask.NameToLayer("Enemy");
+        _bombManager = FindObjectOfType<BombManager>();
 
         _sec = _secMaxValue;
 
-        _anim.Play(_startAnimation);
+        _indexLayerBomb = LayerMask.NameToLayer("Bomb");
+        _indexLayerEnemy = LayerMask.NameToLayer("Enemy");
     }
 
     private void Update()
     {
-        if (IsAnimationPlaying("Onn"))
+        if (IsAnimationPlaying("On"))
         {
-            _time = true;
+            _timer = true;
             Physics2D.IgnoreLayerCollision(_indexLayerBomb, _indexLayerEnemy, false);
         }
-        if (IsAnimationPlaying("Off"))
-            _time = false;
+        else
+            _timer = false;
 
-        if (_time)
+        if (_timer)
         {
             _sec -= Time.deltaTime;
 
-            if (_sec <= 0)
+            if (_sec < 0)
             {
-                _anim.Play("Boom");
                 _sec = _secMaxValue;
+                _anim.Play("Boom");
 
-                _time = false;
+                _timer = false;
             }
         }
-        
+
         if (IsAnimationPlaying("Boom"))
             FindAndDestroyObjects();
 
         if (IsAnimationFinished("Boom"))
-            gameObject.SetActive(false);
-
-        if (IsAnimationPlaying("Off"))
-            _useCollider.enabled = true;
-        else
-            _useCollider.enabled = false;
-    }
-
-    public void ActiveBomb(GameObject objBomb)
-    {
-        _anim.Play("Onn");
-        objBomb.SetActive(false);
+            _bombManager.DeactiveBomb(gameObject);
     }
 
     private void FindAndDestroyObjects()
@@ -105,7 +99,7 @@ public class Bomb : MonoBehaviour
 
             enemy.GetComponent<Enemy>().Death(_vectorDamage);
         }
-        
+
         foreach (Collider2D player in playerInRange)
         {
             if (player.transform.position.x < transform.position.x)
@@ -142,6 +136,8 @@ public class Bomb : MonoBehaviour
     {
         if (!IsAnimationPlaying("Boom"))
         {
+            _timer = false;
+
             _anim.Play("Off");
             _sec = _secMaxValue;
 
@@ -151,6 +147,8 @@ public class Bomb : MonoBehaviour
 
     public void BombEat()
     {
+        _timer = false;
+
         _sec = _secMaxValue;
         gameObject.SetActive(false);
     }
@@ -179,22 +177,19 @@ public class Bomb : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (_device == "PC" && collider.CompareTag("Player"))
-            _takeUI.SetActive(true);
+        if (DeviceControl.Instance.CurrentDevice() == "PC")
+        {
+            if (collider.CompareTag("Player") && IsAnimationPlaying("Off"))
+                _takeUI.SetActive(true);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collider)
     {
-        if (_device == "PC" && collider.CompareTag("Player"))
-            _takeUI.SetActive(false);
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player") && ActiveBombAnim)
+        if (DeviceControl.Instance.CurrentDevice() == "PC")
         {
-            _anim.Play("Onn");
-            ActiveBombAnim = false;
+            if (collider.CompareTag("Player"))
+                _takeUI.SetActive(false);
         }
     }
 

@@ -55,12 +55,15 @@ public class BombManager : MonoBehaviour
 
             _listBombs[_currentNumberBomb - 1].SetActive(true);
 
-            Bomb.ActiveBombAnim = true;
-
             _currentNumberBomb--;
 
             _reloadAnim.Play("Reload");
         }
+    }
+
+    public void DeactiveBomb(GameObject bomb)
+    {
+        bomb.SetActive(false);
     }
 
     public bool TakeBomb()

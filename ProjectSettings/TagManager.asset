@@ -11,6 +11,7 @@ TagManager:
   - SpawnPointEnemy
   - SpawnPointBomb
   - TriggerBoss
+  - Ceiling
   layers:
   - Default
   - TransparentFX

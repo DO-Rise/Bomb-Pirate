@@ -6725,6 +6725,10 @@ PrefabInstance:
       propertyPath: _startAnimation
       value: Onn
       objectReference: {fileID: 0}
+    - target: {fileID: 4178788114577339546, guid: b4ad2cb949dcceb4eaeace75b531b17d, type: 3}
+      propertyPath: _startAnimation
+      value: On
+      objectReference: {fileID: 0}
     - target: {fileID: 5309436324583751818, guid: b4ad2cb949dcceb4eaeace75b531b17d, type: 3}
       propertyPath: m_Name
       value: Bomb (4)
@@ -10330,6 +10334,10 @@ PrefabInstance:
       propertyPath: _startAnimation
       value: Onn
       objectReference: {fileID: 0}
+    - target: {fileID: 4178788114577339546, guid: b4ad2cb949dcceb4eaeace75b531b17d, type: 3}
+      propertyPath: _startAnimation
+      value: On
+      objectReference: {fileID: 0}
     - target: {fileID: 5309436324583751818, guid: b4ad2cb949dcceb4eaeace75b531b17d, type: 3}
       propertyPath: m_Name
       value: Bomb
@@ -12217,6 +12225,10 @@ PrefabInstance:
       propertyPath: _startAnimation
       value: Onn
       objectReference: {fileID: 0}
+    - target: {fileID: 4178788114577339546, guid: b4ad2cb949dcceb4eaeace75b531b17d, type: 3}
+      propertyPath: _startAnimation
+      value: On
+      objectReference: {fileID: 0}
     - target: {fileID: 5309436324583751818, guid: b4ad2cb949dcceb4eaeace75b531b17d, type: 3}
       propertyPath: m_Name
       value: Bomb (2)
@@ -12292,6 +12304,10 @@ PrefabInstance:
       propertyPath: _startAnimation
       value: Onn
       objectReference: {fileID: 0}
+    - target: {fileID: 4178788114577339546, guid: b4ad2cb949dcceb4eaeace75b531b17d, type: 3}
+      propertyPath: _startAnimation
+      value: On
+      objectReference: {fileID: 0}
     - target: {fileID: 5309436324583751818, guid: b4ad2cb949dcceb4eaeace75b531b17d, type: 3}
       propertyPath: m_Name
       value: Bomb (3)
@@ -12366,6 +12382,10 @@ PrefabInstance:
     - target: {fileID: 1914739351828126819, guid: b4ad2cb949dcceb4eaeace75b531b17d, type: 3}
       propertyPath: _startAnimation
       value: Onn
+      objectReference: {fileID: 0}
+    - target: {fileID: 4178788114577339546, guid: b4ad2cb949dcceb4eaeace75b531b17d, type: 3}
+      propertyPath: _startAnimation
+      value: On
       objectReference: {fileID: 0}
     - target: {fileID: 5309436324583751818, guid: b4ad2cb949dcceb4eaeace75b531b17d, type: 3}
       propertyPath: m_Name

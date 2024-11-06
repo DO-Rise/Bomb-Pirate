@@ -193,8 +193,10 @@ public class PlayerController : MonoBehaviour
     {
         if (collider.CompareTag("Bomb"))
         {
-            GameUI.Instance.BombSelection(collider.gameObject);
             GameUI.Instance.ButtonActive(true, "TakeBomb");
+
+            if (DeviceControl.Instance.CurrentDevice() == "PC")
+                GameUI.Instance.CurrentBomb(collider.gameObject);
         }
 
         if (collider.CompareTag("TriggerBoss"))
@@ -207,6 +209,11 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collider)
     {
         if (collider.CompareTag("Bomb"))
+        {
             GameUI.Instance.ButtonActive(false, "Use");
+
+            if (DeviceControl.Instance.CurrentDevice() == "PC")
+                GameUI.Instance.CurrentBomb(null);
+        }
     }
 }

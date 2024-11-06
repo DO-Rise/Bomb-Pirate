@@ -49,9 +49,9 @@ public class GameUI : MonoBehaviour
     private Timer _timer;
     private AudioSource _audioSource;
 
-    private GameObject _bombSelection;
+    private GameObject _currentTakeBomb;
     private bool _takeBomb = false;
-    private bool _useBomb = true;
+    private bool _plantBomb = true;
     private bool _useDoor = false;
 
     private bool _sound = true;
@@ -84,7 +84,7 @@ public class GameUI : MonoBehaviour
             if (Input.GetKey(KeyCode.E))
                 UseButton();
 
-            if (Input.GetKeyDown(KeyCode.O) && _useBomb)
+            if (Input.GetKeyDown(KeyCode.O) && _plantBomb)
                 _bombManager.ActiveBomb();
         }
         else
@@ -147,7 +147,7 @@ public class GameUI : MonoBehaviour
             if (nameButton == "Bomb")
             {
                 _bombButton.interactable = true;
-                _useBomb = true;
+                _plantBomb = true;
             }
         }
         else
@@ -162,19 +162,19 @@ public class GameUI : MonoBehaviour
             if (nameButton == "Bomb")
             {
                 _bombButton.interactable = false;
-                _useBomb = false;
+                _plantBomb = false;
             }
         }
-    }
-    
-    public void BombSelection(GameObject bomb)
-    {
-        _bombSelection = bomb;
     }
 
     public void BombNumberUI(int number)
     {
         _bombCurentNumberText.text = number.ToString();
+    }
+
+    public void CurrentBomb(GameObject bomb)
+    {
+        _currentTakeBomb = bomb;
     }
 
     public void UseButton()
@@ -186,8 +186,11 @@ public class GameUI : MonoBehaviour
             else if (Door.Instance.DoorName() == "Finish")
                 _levelGenerator.ResetLevel();
         }
-        else if (_takeBomb && _bombManager.TakeBomb())
-            Bomb.Instance.ActiveBomb(_bombSelection);
+
+        if (_takeBomb && _bombManager.TakeBomb())
+        {
+            _bombManager.DeactiveBomb(_currentTakeBomb);
+        }
     }
 
     public void SettingsButton(bool active)

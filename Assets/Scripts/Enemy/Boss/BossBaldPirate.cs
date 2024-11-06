@@ -4,19 +4,23 @@ using UnityEngine;
 
 public class BossBaldPirate : Boss
 {
-    [SerializeField] private GameObject _allPlatforms;
+    [Header("Bald Pirate")]
     [SerializeField] private GameObject _mainCannon;
+    [SerializeField] private GameObject[] _bombs;
 
     private Transform _currentPosition;
 
     private float _speed = 8f;
     private float _jumpForce = 25f;
-    private float _targetHeight = 20f;
 
     private bool _jumped = false;
     private bool _movingUp = false;
-    private bool _falling = false;
+    private bool _stop = false;
 
+    private bool _bombActive = false;
+    private float _sec = 2f;
+
+    private bool _falling = false;
     protected override void FirstStage()
     {
         if (!_jumped)
@@ -33,14 +37,16 @@ public class BossBaldPirate : Boss
         {
             _anim.Play("Cannon");
 
-            if (transform.position.y >= _targetHeight)
+            if (_stop)
             {
-                _movingUp = false;
-
                 _rb.velocity = Vector2.zero;
                 _rb.gravityScale = 0;
 
+                _mainCannon.transform.position = new Vector2(_mainCannon.transform.position.x, _mainCannon.transform.position.y);
                 _mainCannon.SetActive(false);
+
+                _bombActive = true;
+                _movingUp = false;
             }
             else
             {
@@ -49,8 +55,31 @@ public class BossBaldPirate : Boss
             }
         }
 
+        if (_bombActive)
+        {
+            _sec -= Time.deltaTime;
+
+            if (_sec < 0)
+            {
+                int bombCount = 0;
+
+                while (bombCount < 3)
+                {
+                    int number = Random.Range(0, _bombs.Length);
+
+                    if (!_bombs[number].activeSelf)
+                    {
+                        _bombs[number].SetActive(true);
+                        bombCount++;
+                    }
+                }
+
+                _sec = 2f;
+            }
+        }
+
         if (_falling)
-            _rb.gravityScale = 1;
+            _rb.gravityScale = 3.5f;
     }
 
     private void CannonActive()
@@ -74,5 +103,11 @@ public class BossBaldPirate : Boss
     protected override void ThirdStage()
     {
 
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ceiling"))
+            _stop = true;
     }
 }

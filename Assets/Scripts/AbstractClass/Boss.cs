@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Boss : MonoBehaviour
 {
+    [Header("Main")]
     [SerializeField] private GameObject _bossStartTrigger;
     [SerializeField] private int _maxHealth;
     [SerializeField] private int _maxStage;
