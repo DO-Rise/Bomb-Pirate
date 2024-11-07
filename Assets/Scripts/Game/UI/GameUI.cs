@@ -57,6 +57,7 @@ public class GameUI : MonoBehaviour
     private bool _sound = true;
 
     private string _device;
+    private int _numberClickEscape = 0;
 
     private void Start()
     {
@@ -78,8 +79,19 @@ public class GameUI : MonoBehaviour
         {
             _controlDisplayButton.SetActive(false);
 
-            if (Input.GetKey(KeyCode.Escape))
-                _settingsScreen.SetActive(true);
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (_numberClickEscape == 0)
+                {
+                    SettingsButton(true);
+                    _numberClickEscape++;
+                }
+                else
+                {
+                    SettingsButton(false);
+                    _numberClickEscape--;
+                }
+            }
 
             if (Input.GetKey(KeyCode.E))
                 UseButton();
@@ -195,6 +207,8 @@ public class GameUI : MonoBehaviour
 
     public void SettingsButton(bool active)
     {
+        Time.timeScale = active ? 0f : 1f;
+
         _settingsScreen.SetActive(active);
     }
     

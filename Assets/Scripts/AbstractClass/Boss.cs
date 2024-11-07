@@ -16,7 +16,11 @@ public abstract class Boss : MonoBehaviour
     protected BossStage _stage;
     protected BossHealth _health;
 
-    private bool active = false;
+    protected GameObject _player;
+
+    protected bool _takingDamage = false;
+
+    private bool _active = false;
 
     private void Start()
     {
@@ -29,11 +33,13 @@ public abstract class Boss : MonoBehaviour
 
         _stage = GetComponent<BossStage>();
         _stage.Initialize(_maxStage, _health);
+
+        _player = GameObject.FindWithTag("Player");
     }
 
     private void Update()
     {
-        if (active)
+        if (_active)
         {
             switch (_stage.CurrentStage())
             {
@@ -58,7 +64,7 @@ public abstract class Boss : MonoBehaviour
 
     public void ActiveBoss()
     {
-        active = true;
+        _active = true;
         _bossStartTrigger.SetActive(false);
 
         BossHealth.ActiveBoss = true;
@@ -66,8 +72,16 @@ public abstract class Boss : MonoBehaviour
 
     public void Hit()
     {
-        _anim.Play("Hit");
-        _stage.StageCheck();
+        if (_takingDamage)
+        {
+            _anim.Play("Hit");
+            _stage.StageCheck();
+        }
+    }
+
+    public bool ActiveDamage()
+    {
+        return _takingDamage;
     }
 
     /*private bool IsAnimationPlaying(string animName)
@@ -80,7 +94,7 @@ public abstract class Boss : MonoBehaviour
         return false;
     }*/
 
-    /*private bool IsAnimationFinished(string nameAnim)
+    protected bool IsAnimationFinished(string nameAnim)
     {
         AnimatorStateInfo stateInfo = _anim.GetCurrentAnimatorStateInfo(0);
 
@@ -90,5 +104,5 @@ public abstract class Boss : MonoBehaviour
                 return true;
         }
         return false;
-    }*/
+    }
 }

@@ -12,6 +12,7 @@ TagManager:
   - SpawnPointBomb
   - TriggerBoss
   - Ceiling
+  - Destroy
   layers:
   - Default
   - TransparentFX

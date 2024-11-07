@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 0682d2ddfde732242b72132b83278aa2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -220,8 +220,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 694cc549bc1b37e4eac12891d8d9048c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerController: {fileID: 6369047381767828481, guid: 7ce45f56d417fb345acd923134a4f261, type: 3}
-  _bomb: {fileID: 1914739351828126819, guid: b4ad2cb949dcceb4eaeace75b531b17d, type: 3}
   _enemyName: BigGuy
   _basicCollider: {fileID: 4895704285641980183}
   _deadCollider: {fileID: 7518019276959758379}
