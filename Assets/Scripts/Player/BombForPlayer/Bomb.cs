@@ -114,20 +114,20 @@ public class Bomb : MonoBehaviour
             bossInRange.GetComponent<BossHealth>().Damage();
     }
 
-    public void BombHit(string vector, float y)// y = 20 || 0
+    public void BombHit(string vector, float x, float y)
     {
         if (vector == "Left")
         {
             _rb.velocity = Vector2.zero;
 
-            Vector2 bounce = new Vector2(-20f, y);
+            Vector2 bounce = new Vector2(-x, y);
             _rb.AddForce(bounce, ForceMode2D.Impulse);
         }
         else if (vector == "Right")
         {
             _rb.velocity = Vector2.zero;
 
-            Vector2 bounce = new Vector2(20f, y);
+            Vector2 bounce = new Vector2(x, y);
             _rb.AddForce(bounce, ForceMode2D.Impulse);
         }
     }
@@ -151,6 +151,11 @@ public class Bomb : MonoBehaviour
 
         _sec = _secMaxValue;
         gameObject.SetActive(false);
+    }
+
+    public void AnimationPlay(string name)
+    {
+        _anim.Play(name);
     }
 
     private bool IsAnimationPlaying(string animName)

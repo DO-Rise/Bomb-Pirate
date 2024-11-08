@@ -5,12 +5,22 @@ using UnityEngine;
 public class BossBaldPirate : Boss
 {
     [Header("Bald Pirate")]
+    [Header("Bombs")]
+    [SerializeField] private GameObject _bombPrefab;
+    [SerializeField] private GameObject[] _bombsFirstStage;
+    [SerializeField] private GameObject _bombsThirdStage;
+    [SerializeField] private Transform _spawnPointThirdStage;
+
+    [Header("Cannons")]
     [SerializeField] private GameObject _mainCannon;
+    [SerializeField] private GameObject _allCannons;
     [SerializeField] private GameObject[] _cannons;
-    [SerializeField] private GameObject[] _bombs;
+
+    [Header("Positions")]
     [SerializeField] private Transform _positionSecondStage;
     [SerializeField] private Transform _positionThirdStage;
-    [SerializeField] private GameObject _allCannons;
+
+    [Header("Platforms")]
     [SerializeField] private GameObject _platforms;
     [SerializeField] private GameObject _platformsGround;
 
@@ -87,23 +97,23 @@ public class BossBaldPirate : Boss
 
     private IEnumerator AttackFirstStageOne()
     {
-        /*for (int repeat = 0; repeat < 10; repeat++)
+        for (int repeat = 0; repeat < 10; repeat++)
         {
             int bombCount = 0;
 
             while (bombCount < 3)
             {
-                int index = Random.Range(0, _bombs.Length);
+                int index = Random.Range(0, _bombsFirstStage.Length);
 
-                if (!_bombs[index].activeSelf)
+                if (!_bombsFirstStage[index].activeSelf)
                 {
-                    _bombs[index].SetActive(true);
+                    _bombsFirstStage[index].SetActive(true);
                     bombCount++;
                 }
             }
 
             yield return new WaitForSeconds(2f);
-        }*/
+        }
 
         yield return new WaitForSeconds(2f);
 
@@ -182,7 +192,7 @@ public class BossBaldPirate : Boss
 
     private IEnumerator SecondStageOne()
     {
-        /*for (int i = 0; i < 7; i++)
+        for (int i = 0; i < 7; i++)
         {
             _cannons[i].GetComponent<Cannon>().Attack();
             yield return new WaitForSeconds(2f);
@@ -192,15 +202,15 @@ public class BossBaldPirate : Boss
         {
             _cannons[i].GetComponent<Cannon>().Attack();
             yield return new WaitForSeconds(2f);
-        }*/
-            yield return new WaitForSeconds(2f);
+        }
+        yield return new WaitForSeconds(2f);
 
         StartCoroutine(SecondStageTwo());
     }
 
     private IEnumerator SecondStageTwo()
     {
-        /*for (int repeat = 0; repeat < 4; repeat++)
+        for (int repeat = 0; repeat < 4; repeat++)
         {
             for (int i = 0; i < _cannons.Length; i += 3)
             {
@@ -215,22 +225,22 @@ public class BossBaldPirate : Boss
             }
 
             yield return new WaitForSeconds(2f);
-        }*/
-            yield return new WaitForSeconds(2f);
+        }
+        yield return new WaitForSeconds(2f);
 
         StartCoroutine(SecondStageThree());
     }
 
     private IEnumerator SecondStageThree()
     {
-        /*for (int repeat = 0; repeat < 3; repeat++)
+        for (int repeat = 0; repeat < 2; repeat++)
         {
             for (int i = 0; i < _cannons.Length; i++)
             {
                 _cannons[i].GetComponent<Cannon>().Attack();
                 yield return new WaitForSeconds(0.7f);
             }
-        
+
             for (int i = 13; i >= 0; i--)
             {
                 _cannons[i].GetComponent<Cannon>().Attack();
@@ -250,8 +260,8 @@ public class BossBaldPirate : Boss
             }
 
             yield return new WaitForSeconds(0.7f);
-        }*/
-            yield return new WaitForSeconds(0.7f);
+        }
+        yield return new WaitForSeconds(0.7f);
 
         _allCannons.SetActive(false);
         _platformsGround.SetActive(false);
@@ -287,9 +297,30 @@ public class BossBaldPirate : Boss
                 _anim.Play("Idle");
                 _sprite.flipX = false;
 
+                _bombsThirdStage.SetActive(true);
+
                 _movingRight = false;
+
+                StartCoroutine(BombAttackThirdStage());
             }
         }
+    }
+
+    private IEnumerator BombAttackThirdStage()
+    {
+        for (int repeat = 0; repeat < 20; repeat++)
+        {
+            GameObject bomb = Instantiate(_bombPrefab, _spawnPointThirdStage.position, Quaternion.identity);
+            bomb.GetComponent<Bomb>().AnimationPlay("On");
+            _anim.Play("BombAttack", -1, 0f);
+            yield return new WaitForSeconds(0.5f);
+
+            bomb.GetComponent<Bomb>().BombHit("Left", Random.Range(20, 45), Random.Range(5, 15));
+            yield return new WaitForSeconds(1f);
+        }
+
+        _platforms.SetActive(true);
+        _takingDamage = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

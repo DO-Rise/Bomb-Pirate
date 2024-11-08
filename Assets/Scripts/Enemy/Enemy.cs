@@ -103,9 +103,9 @@ public class Enemy : MonoBehaviour
                     if (_enemyName == "Cucumber")
                         Bomb.Instance.BombOff();
                     if (_enemyName == "BaldPirate")
-                        Bomb.Instance.BombHit(_vectorAttack, 20f);
+                        Bomb.Instance.BombHit(_vectorAttack, 20f, 20f);
                     if (_enemyName == "BigGuy")
-                        Bomb.Instance.BombHit(_vectorAttack, 1f);
+                        Bomb.Instance.BombHit(_vectorAttack, 30f, 1f);
                     if (_enemyName == "Whale")
                         Bomb.Instance.BombEat();
 

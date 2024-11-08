@@ -8,6 +8,7 @@ public abstract class Boss : MonoBehaviour
     [SerializeField] private GameObject _bossStartTrigger;
     [SerializeField] private int _maxHealth;
     [SerializeField] private int _maxStage;
+    [SerializeField] private GameObject _winObject;
 
     protected Rigidbody2D _rb;
     protected Animator _anim;
@@ -19,6 +20,7 @@ public abstract class Boss : MonoBehaviour
     protected GameObject _player;
 
     protected bool _takingDamage = false;
+    private bool _death = false;
 
     private bool _active = false;
 
@@ -56,6 +58,12 @@ public abstract class Boss : MonoBehaviour
                     break;
             }
         }
+
+        if (IsAnimationFinished("DeadHit"))
+        {
+            _anim.Play("Dead");
+            _winObject.SetActive(true);
+        }
     }
 
     protected abstract void FirstStage();
@@ -72,10 +80,21 @@ public abstract class Boss : MonoBehaviour
 
     public void Hit()
     {
-        if (_takingDamage)
+        if (!_death)
         {
-            _anim.Play("Hit");
-            _stage.StageCheck();
+            if (_health.CurrentHealth() > 0)
+            {
+                if (_takingDamage)
+                {
+                    _anim.Play("Hit");
+                    _stage.StageCheck();
+                }
+            }
+            else
+            {
+                Death();
+                _death = true;
+            }
         }
     }
 
@@ -104,5 +123,13 @@ public abstract class Boss : MonoBehaviour
                 return true;
         }
         return false;
+    }
+
+    protected void Death()
+    {
+        _takingDamage = false;
+        _anim.Play("DeadHit");
+
+        _active = false;
     }
 }
