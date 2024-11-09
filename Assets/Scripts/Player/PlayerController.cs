@@ -19,8 +19,6 @@ public class PlayerController : MonoBehaviour
     private float _jumpForce = 14f;
     private bool _isJumping = true;
 
-    private bool _isDead = false;
-
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -86,14 +84,8 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (IsAnimationFinished("Hit"))
-            _movement = true;
-
         if (IsAnimationFinished("DeadHit"))
             _anim.Play("Dead");
-
-        if (GameUI.Instance.IsAnimationFinished("End"))
-            _movement = true;
     }
 
     public bool SpriteFlip()
@@ -151,22 +143,13 @@ public class PlayerController : MonoBehaviour
 
         if (enemyName == "BigGuy")
             _health.DeactiveHeart();
+
+        Invoke("MovementActive", 1f);
     }
 
-    public bool PlayerCheckDeath()
+    public void MovementActive()
     {
-        if (_isDead)
-            return true;
-        else
-            return false;
-    }
-
-    public void Death()
-    {
-        _isDead = true;
-        _anim.Play("DeadHit");
-
-        GameUI.Instance.Lose();
+        _movement = true;
     }
 
     // anim finished
@@ -194,9 +177,7 @@ public class PlayerController : MonoBehaviour
         if (collider.CompareTag("Bomb"))
         {
             GameUI.Instance.ButtonActive(true, "TakeBomb");
-
-            if (DeviceControl.Instance.CurrentDevice() == "PC")
-                GameUI.Instance.CurrentBomb(collider.gameObject);
+            GameUI.Instance.CurrentBomb(collider.gameObject);
         }
 
         if (collider.CompareTag("TriggerBoss"))
@@ -211,9 +192,14 @@ public class PlayerController : MonoBehaviour
         if (collider.CompareTag("Bomb"))
         {
             GameUI.Instance.ButtonActive(false, "Use");
-
-            if (DeviceControl.Instance.CurrentDevice() == "PC")
-                GameUI.Instance.CurrentBomb(null);
+            GameUI.Instance.CurrentBomb(null);
         }
+    }
+
+    public void Death()
+    {
+        _anim.Play("DeadHit");
+
+        GameUI.Instance.Lose();
     }
 }

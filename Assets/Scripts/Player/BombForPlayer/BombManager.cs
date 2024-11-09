@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class BombManager : MonoBehaviour
 {
-    [SerializeField] private PlayerController _playerController;
     [SerializeField] private List<GameObject> _listBombs;
     [SerializeField] private Transform _spawnPositionL;
     [SerializeField] private Transform _spawnPositionR;
     [SerializeField] private Animator _reloadAnim;
+
+    private PlayerController _playerController;
 
     private int _currentNumberBomb;
 

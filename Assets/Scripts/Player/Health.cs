@@ -18,7 +18,7 @@ public class Health : MonoBehaviour
 
     public void DeactiveHeart()
     {
-        if (_currentHearts <= 1)
+        if (_currentHearts < 1)
             _playerController.Death();
 
         if (_currentHearts > 0 && _deactive)

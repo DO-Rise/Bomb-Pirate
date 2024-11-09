@@ -43,6 +43,8 @@ public class GameUI : MonoBehaviour
     [SerializeField] private LevelGenerator _levelGenerator;
     [SerializeField] private BombManager _bombManager;
 
+    private PlayerController _player;
+
     private Boss _boss;
     private BossHealth _bossHealth;
 
@@ -59,14 +61,21 @@ public class GameUI : MonoBehaviour
     private string _device;
     private int _numberClickEscape = 0;
 
-    private void Start()
+    private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        Time.timeScale = 1f;
 
         _timer = GetComponentInChildren<Timer>();
         _audioSource = GetComponent<AudioSource>();
 
         _device = DeviceControl.Instance.CurrentDevice();
+
+        _player = FindObjectOfType<PlayerController>();
 
         _audioSource.clip = _menuSound;
         if (SoundCheck())
@@ -106,6 +115,8 @@ public class GameUI : MonoBehaviour
         if (IsAnimationFinished("End"))
         {
             _boss.ActiveBoss();
+
+            _player.MovementActive();
 
             _bossImageScreen.SetActive(false);
             _bossHealthObject.SetActive(true);
