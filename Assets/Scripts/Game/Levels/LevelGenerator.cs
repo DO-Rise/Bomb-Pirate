@@ -27,7 +27,7 @@ public class LevelGenerator : MonoBehaviour
 
     private GameObject _currentObjectPosition;
 
-    private int _currentNumberLevel = 5;
+    private int _currentNumberLevel = 0;
     private int _createNumber = 0;
     private int _createLevel = 0;
     private int _minCreateLevel = 0;
@@ -45,7 +45,7 @@ public class LevelGenerator : MonoBehaviour
         _player.transform.position = _startPoint.position;
 
         //PlayerPrefs.DeleteKey("SavedNumberLevel");
-        //_currentNumberLevel = PlayerPrefs.GetInt("SavedNumberLevel", 0);
+        _currentNumberLevel = PlayerPrefs.GetInt("SavedNumberLevel", 0);
     }
 
     private void Update()
@@ -236,7 +236,7 @@ public class LevelGenerator : MonoBehaviour
     public void ResetLevel()
     {
         _currentNumberLevel++;
-        //PlayerPrefs.SetInt("SavedNumberLevel", _currentNumberLevel);
+        PlayerPrefs.SetInt("SavedNumberLevel", _currentNumberLevel);
 
         SceneManager.LoadScene(1);
     }
