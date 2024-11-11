@@ -12232,6 +12232,10 @@ MonoBehaviour:
   - {fileID: 145324348419036814, guid: 835d1c5f28d5de148b656bfc8517e853, type: 3}
   _bossLevel:
   - {fileID: 5891400424931333754, guid: 89fa88711bb6f4342973e757007f187d, type: 3}
+  - {fileID: 5891400424931333754, guid: 055da3e952981284eb34993df5afe079, type: 3}
+  - {fileID: 5891400424931333754, guid: f860c2bf6e3003445a24d08bda2c560c, type: 3}
+  - {fileID: 5891400424931333754, guid: 0d39ea22b78f5e64eb840e1212df6580, type: 3}
+  - {fileID: 5891400424931333754, guid: 767d763a40d8e604687c190e5534d182, type: 3}
   _startPoint: {fileID: 626927415}
   _currentNumberLevelText: {fileID: 1088317111}
   _enemys:
